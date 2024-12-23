@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven' // Asegúrate de que Maven esté configurado correctamente en Jenkins
+        jdk 'JDK'     // Asegúrate de que el JDK esté configurado correctamente en Jenkins
+    }
+    stages {
+        stage('Clonar Repositorio') {
+            steps {
+                git branch: 'main', url: 'https://github.com/KeldarWolf/ProyectoRetailOff.git'
+                echo 'Repositorio clonado correctamente'
+            }
+        }
+        stage('Verificar Dependencias') {
+            steps {
+                echo 'Verificando dependencias del proyecto...'
+                // Aquí puedes agregar comandos específicos si estás utilizando Maven
+                // Por ejemplo:
+                // sh 'mvn dependency:resolve'  // Si usas Maven para resolver dependencias
+            }
+        }
+        stage('Compilar Proyecto') {
+            steps {
+                echo 'Compilando el proyecto...'
+                // Usando Maven para compilar el proyecto
+                sh 'mvn clean install' // Reemplaza con tu comando de compilación adecuado
+            }
+        }
+        stage('Ejecutar Pruebas') {
+            steps {
+                echo 'Ejecutando pruebas del proyecto...'
+                // Si usas Maven para ejecutar pruebas
+                sh 'mvn test' // Ejecuta tus pruebas si usas Maven
+            }
+        }
+        stage('Desplegar Proyecto') {
+            steps {
+                echo 'Desplegando la aplicación...'
+                // Aquí puedes agregar comandos específicos para el despliegue
+                // Por ejemplo:
+                // sh 'scp -r target/* user@server:/path/to/deployment'
+                // O cualquier otro proceso de despliegue que utilices
+            }
+        }
+    }
+}
