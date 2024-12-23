@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    
+    tools {
+        maven 'Maven'
+        jdk 'JDK'
+    }
+    
+    stages {
+        stage('Obtener Código Fuente') {
+            steps {
+                // Limpieza del workspace
+                cleanWs()
+                // Obtener código de GitHub
+                git branch: 'main',
+                    url: 'https://github.com/KeldarWolf/ProyectoRetailOff.git'
+            }
+        }
+        
+        stage('Compilar') {
+            steps {
+                // Compilar el proyecto
+                sh "mvn clean compile"
+            }
+        }
+        
+        stage('Test') {
+            steps {
+                // Ejecutar pruebas
+                sh "mvn test"
+            }
+            post {
+                always {
+                    // Publicar resultados de pruebas
+                    junit '**/target/surefire-reports/*.xml'
+                }
+            }
+        }
+        
+        stage('Análisis de Código') {
+            steps {
+                // Análisis de código
+                sh "mvn verify"
+            }
+        }
+        
+        stage('Empaquetar') {
+            steps {
+                // Crear el JAR
+                sh "mvn package"
+                // Archivar el artefacto
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
+        }
+        
+        stage('Despliegue') {
+            steps {
+                // Aquí puedes agregar los comandos de despliegue
+                echo 'Desplegando aplicación...'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Pipeline ejecutado exitosamente!'
+        }
+        failure {
+            echo 'El pipeline ha fallado.'
+        }
+        always {
+            // Limpiar workspace después de la ejecución
+            cleanWs()
+        }
+    }
+}
