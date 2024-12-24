@@ -1,36 +1,34 @@
 pipeline {
     agent any
     stages {
-        stage('Clonar Repositorio') {
+        stage('Inicializar Recursos') {
             steps {
-                git branch: 'main', url: 'https://github.com/KeldarWolf/ProyectoRetailOff.git'
-                echo 'Repositorio clonado correctamente'
+                git branch: 'main', url: 'https://github.com/KeldarWolf/ProyectoDemo.git'
+                echo 'Código fuente descargado con éxito'
             }
         }
-        stage('Verificar Dependencias') {
+        stage('Preparar Entorno') {
             steps {
-                echo 'Verificando dependencias del proyecto...'
-                // Aquí puedes incluir comandos específicos de tu proyecto, como validar archivos o dependencias
+                echo 'Configurando entorno de desarrollo...'
+                // Aquí podrías agregar comandos como instalación de dependencias o configuración inicial
             }
         }
-        stage('Compilar Proyecto') {
+        stage('Generar Artefactos') {
             steps {
-                echo 'Compilando el proyecto...'
-                // Comando para compilar, por ejemplo:
-                // sh './gradlew build' o 'mvn clean install'
+                echo 'Generando artefactos necesarios para el despliegue...'
+                // Ejemplo: sh './gradlew assemble' o 'mvn package'
             }
         }
-        stage('Ejecutar Pruebas') {
+        stage('Validar Funcionalidad') {
             steps {
-                echo 'Ejecutando pruebas del proyecto...'
-                // Comando para ejecutar pruebas, por ejemplo:
-                // sh './gradlew test'
+                echo 'Ejecutando pruebas de validación...'
+                // Ejemplo: sh './gradlew test' o 'mvn test'
             }
         }
-        stage('Desplegar Proyecto') {
+        stage('Publicar en Servidor') {
             steps {
-                echo 'Desplegando la aplicación...'
-                // Aquí puedes incluir comandos para desplegar, como copiar archivos a un servidor
+                echo 'Publicando artefactos en el servidor...'
+                // Aquí puedes incluir comandos como despliegue en un repositorio o servidor
             }
         }
     }
