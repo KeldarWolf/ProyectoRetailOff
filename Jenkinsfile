@@ -1,34 +1,36 @@
 pipeline {
     agent any
     stages {
-        stage('Inicializar Recursos') {
+        stage('Clonar Repositorio') {
             steps {
-                git branch: 'main', url: 'https://github.com/KeldarWolf/ProyectoDemo.git'
-                echo 'Código fuente descargado con éxito'
+                git branch: 'main', url: 'https://github.com/KeldarWolf/ProyectoRetailOff.git'
+                echo 'Repositorio clonado correctamente'
             }
         }
-        stage('Preparar Entorno') {
+        stage('Verificar Dependencias') {
             steps {
-                echo 'Configurando entorno de desarrollo...'
-                // Aquí podrías agregar comandos como instalación de dependencias o configuración inicial
+                echo 'Verificando dependencias del proyecto...'
+                // Aquí puedes incluir comandos específicos de tu proyecto, como validar archivos o dependencias
             }
         }
-        stage('Generar Artefactos') {
+        stage('Compilar Proyecto') {
             steps {
-                echo 'Generando artefactos necesarios para el despliegue...'
-                // Ejemplo: sh './gradlew assemble' o 'mvn package'
+                echo 'Compilando el proyecto...'
+                // Comando para compilar, por ejemplo:
+                // sh './gradlew build' o 'mvn clean install'
             }
         }
-        stage('Validar Funcionalidad') {
+        stage('Ejecutar Pruebas') {
             steps {
-                echo 'Ejecutando pruebas de validación...'
-                // Ejemplo: sh './gradlew test' o 'mvn test'
+                echo 'Ejecutando pruebas del proyecto...'
+                // Comando para ejecutar pruebas, por ejemplo:
+                // sh './gradlew test'
             }
         }
-        stage('Publicar en Servidor') {
+        stage('Desplegar Proyecto') {
             steps {
-                echo 'Publicando artefactos en el servidor...'
-                // Aquí puedes incluir comandos como despliegue en un repositorio o servidor
+                echo 'Desplegando la aplicación...'
+                // Aquí puedes incluir comandos para desplegar, como copiar archivos a un servidor
             }
         }
     }
